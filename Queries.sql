@@ -23,7 +23,7 @@ WHERE row_num IN (
     (total_count + 2) / 2        -- Middle row (for even counts)
 );
 
--- Customers by age groups + percentage of customers by age groups.
+-- Customers (adults) by age groups + percentage of customers by age groups.
 SELECT 
     CASE
         WHEN age BETWEEN 18 AND 24 THEN '18-24'
@@ -106,13 +106,15 @@ ORDER BY Profession;
 
 -- Number of Customers by Gender
 
-SELECT Gender, COUNT(*) AS number_of_customers
-FROM customers
+SELECT 
+    Gender, COUNT(*) AS number_of_customers
+FROM
+    customers
 GROUP BY Gender;
 
 -- AVG Spending Score by Age Group
 SELECT 
-    CASE 
+    CASE
         WHEN Age BETWEEN 18 AND 24 THEN '18-24'
         WHEN Age BETWEEN 25 AND 34 THEN '25-34'
         WHEN Age BETWEEN 35 AND 44 THEN '35-44'
@@ -120,7 +122,8 @@ SELECT
         WHEN Age >= 55 THEN '55+'
     END AS age_group,
     AVG(`Spending Score (1-100)`) AS average_spending_score
-FROM customers
+FROM
+    customers
 GROUP BY age_group
 ORDER BY CASE
     WHEN age_group = '18-24' THEN 1
@@ -131,41 +134,53 @@ ORDER BY CASE
 END;
 
 -- Number of Customers by Family Size Group
-SELECT `Family Size`, COUNT(*) AS number_of_customers
-FROM customers
+SELECT 
+    `Family Size`, COUNT(*) AS number_of_customers
+FROM
+    customers
 GROUP BY `Family Size`;
 
 -- Work Experience by Profession
-SELECT Profession, AVG(`Work Experience`) AS avg_work_experience
-FROM customers
+SELECT 
+    Profession, AVG(`Work Experience`) AS avg_work_experience
+FROM
+    customers
 GROUP BY Profession;
 
 -- Top Professions with Highest avg Annual Income
 
-SELECT Profession, AVG(`Annual Income ($)`) AS average_income
-FROM customers
+SELECT 
+    Profession, AVG(`Annual Income ($)`) AS average_income
+FROM
+    customers
 GROUP BY Profession
 ORDER BY average_income DESC;
 
 -- Testing VIEWS
 
 CREATE VIEW customer_summary AS
-SELECT 
-    CustomerID, 
-    Gender, 
-    Age, 
-    `Annual Income ($)`, 
-    `Spending Score (1-100)`, 
-    Profession
-FROM customers;
+    SELECT 
+        CustomerID,
+        Gender,
+        Age,
+        `Annual Income ($)`,
+        `Spending Score (1-100)`,
+        Profession
+    FROM
+        customers;
 
-SELECT * FROM customer_summary;
+SELECT 
+    *
+FROM
+    customer_summary;
 
 -- A typical sales report.
-SELECT Gender, 
-       AVG(`Annual Income ($)`) AS avg_income,
-       AVG(`Spending Score (1-100)`) AS avg_spending
-FROM customers
+SELECT 
+    Gender,
+    AVG(`Annual Income ($)`) AS avg_income,
+    AVG(`Spending Score (1-100)`) AS avg_spending
+FROM
+    customers
 GROUP BY Gender;
 
 -- Index experimentation ( an example since its not necessary for this project since the number of rows on the table are very small)
@@ -173,9 +188,12 @@ CREATE INDEX idx_gender ON customers (Gender);
 
 -- Would improve performance on Queries like this one bellow.
 
-SELECT CustomerID, Age, `Annual Income ($)`
-FROM customers
-WHERE Gender = 'Female';
+SELECT 
+    CustomerID, Age, `Annual Income ($)`
+FROM
+    customers
+WHERE
+    Gender = 'Female';
 
 
 

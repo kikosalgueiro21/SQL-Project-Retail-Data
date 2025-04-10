@@ -24,8 +24,9 @@ WHERE
         OR `Family Size` = '';
     
     -- Setting invalid ages to NULL.
-DELETE FROM customers
-WHERE Age <= 0 OR Age > 140;
+DELETE FROM customers 
+WHERE
+    Age <= 0 OR Age > 140;
 
 UPDATE customers 
 SET 
